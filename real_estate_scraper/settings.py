@@ -6,10 +6,12 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+
+
 from shutil import which
 
 SELENIUM_DRIVER_NAME = 'chrome'
-SELENIUM_DRIVER_EXECUTABLE_PATH = which('C:\Program Files (x86)\chromedriver.exe')
+SELENIUM_DRIVER_EXECUTABLE_PATH = 'C:/Users\dariu\Desktop/real_estates_scraper/real_estate_scraper/chromedriver.exe' # which('chromedriver')
 SELENIUM_DRIVER_ARGUMENTS=['--headless'] 
 
 BOT_NAME = 'real_estate'
