@@ -8,11 +8,11 @@
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 
-from shutil import which
+# from shutil import which
 
-SELENIUM_DRIVER_NAME = 'chrome'
-SELENIUM_DRIVER_EXECUTABLE_PATH = 'C:/Users\dariu\Desktop/real_estates_scraper/real_estate_scraper/chromedriver.exe' # which('chromedriver')
-SELENIUM_DRIVER_ARGUMENTS=['--headless'] 
+# SELENIUM_DRIVER_NAME = 'chrome'
+# SELENIUM_DRIVER_EXECUTABLE_PATH = 'C:/Users\dariu\Desktop/real_estates_scraper/real_estate_scraper/chromedriver.exe' # which('chromedriver')
+# SELENIUM_DRIVER_ARGUMENTS=['--headless'] 
 
 BOT_NAME = 'real_estate'
 
@@ -27,7 +27,7 @@ NEWSPIDER_MODULE = 'real_estate_scraper.spiders'
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 4
+CONCURRENT_REQUESTS = 8
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -63,7 +63,7 @@ DOWNLOADER_MIDDLEWARES = {
     'scrapy.contrib.downloadermiddleware.retry.RetryMiddleware': None,
     'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400,
     'scrapy_fake_useragent.middleware.RetryUserAgentMiddleware': 401,
-    'scrapy_selenium.SeleniumMiddleware': 800
+    'scrapy_selenium.SeleniumMiddleware': 800,
     # 'real_estate_scraper.middlewares.RealEstateScraperDownloaderMiddleware': 543,
     # 'rotating_proxies.middlewares.RotatingProxyMiddleware': 610,
     # 'rotating_proxies.middlewares.BanDetectionMiddleware': 620,
@@ -104,7 +104,7 @@ HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 # Set settings whose default value is deprecated to a future-proof value
 REQUEST_FINGERPRINTER_IMPLEMENTATION = '2.7'
-# TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
+TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
 
 FAKEUSERAGENT_PROVIDERS = [
     'scrapy_fake_useragent.providers.FakeUserAgentProvider',  # this is the first provider we'll try

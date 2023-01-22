@@ -17,9 +17,13 @@ class OtoDomChromeDriver():
     chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
     service=ChromeService(ChromeDriverManager().install())
 
+    @staticmethod
+    def init_webdriver():
+        return webdriver.Chrome(service=OtoDomChromeDriver.service,
+         options=OtoDomChromeDriver.chrome_options)
 
     @staticmethod
-    def page_scroll():
+    def scroll_page(driver):
         js_page_scroll = """
         function pageScroll() {
             window.scrollBy(0, 50); // horizontal and vertical scroll increments
@@ -30,18 +34,16 @@ class OtoDomChromeDriver():
         }
         pageScroll();
         """
-        return js_page_scroll
+        driver.execute_script(script=js_page_scroll)
+        # return js_page_scroll
 
     @staticmethod
-    def init_webdriver():
-        return webdriver.Chrome(service=OtoDomChromeDriver.service, options=OtoDomChromeDriver.chrome_options)
-
-    @staticmethod
-    def confirm_consent(driver):
-        try:
-            consent = driver.find_element(By.ID, 'onetrust-accept-btn-handler')
-            time.sleep(3) # wait for selector to be loaded on page
-            consent.click()
-        except NoSuchElementException:
-            time.sleep(10)
-            OtoDomChromeDriver.confirm_consent(driver)
+    def confirm_consent(driver, retries=1):
+        if retries < 3:
+            try:
+                consent = driver.find_element(By.ID, 'onetrust-accept-btn-handler')
+                time.sleep(3) # wait for selector to be loaded on page
+                consent.click()
+            except NoSuchElementException:
+                time.sleep(10)
+                OtoDomChromeDriver.confirm_consent(driver, retries=retries+1)
