@@ -154,7 +154,7 @@ class RealEstateItem(scrapy.Item):
         output_processor = TakeFirst()
     )
     rooms_num = scrapy.Field(
-        input_processor = MapCompose(lambda value: value.strip('+'), int),
+        input_processor = MapCompose(lambda value: int_or_none(value), int),
         output_processor = TakeFirst()
     )
     title = scrapy.Field(
@@ -349,10 +349,6 @@ class RealEstateItem(scrapy.Item):
             input_processor = MapCompose(bool),
             output_processor = TakeFirst()
         )
-    cable_television = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-    )
 
     # HOUSE ONLY DATA
     access_type = scrapy.Field(
@@ -375,21 +371,17 @@ class RealEstateItem(scrapy.Item):
             input_processor = MapCompose(str),
             output_processor = TakeFirst()
         )
-    two_storey = scrapy.Field(
-            input_processor = MapCompose(bool),
+    vicinities = scrapy.Field(
+            input_processor = MapCompose(str),
             output_processor = TakeFirst()
-    )
-    non_smokers_only = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-    )
+        )
+
     # FEATURES AND MEDIAS BY CATEGORY
     security_types = scrapy.Field()
     equipment_types = scrapy.Field()
     extras_types = scrapy.Field()
     all_features = scrapy.Field()
     all_medias = scrapy.Field()
-    vicinities = scrapy.Field()
 
 def get_estate(data):
     item_loader = ItemLoader(item=RealEstateItem(), data=data)
@@ -506,7 +498,6 @@ def get_estate(data):
     item_loader.add_value("garden", has_feature(all_features, "garden"))
     item_loader.add_value("lift", has_feature(all_features, "lift"))
     item_loader.add_value("monitoring", has_feature(all_features, "monitoring"))
-    item_loader.add_value("non_smokers_only", has_feature(all_features, "non_smokers_only"))
     item_loader.add_value("oven", has_feature(all_features, "oven"))
     item_loader.add_value("pool", has_feature(all_features, "pool"))
     item_loader.add_value("roller_shutters", has_feature(all_features, "roller_shutters"))
@@ -514,7 +505,6 @@ def get_estate(data):
     item_loader.add_value("stove", has_feature(all_features, "stove"))
     item_loader.add_value("terrace", has_feature(all_features, "terrace"))
     item_loader.add_value("tv", has_feature(all_features, "tv"))
-    item_loader.add_value("two_storey", has_feature(all_features, "two_storey"))
     item_loader.add_value("usable_room", has_feature(all_features, "usable_room"))
     item_loader.add_value("washing_machine", has_feature(all_features, "washing_machine"))
 
@@ -526,7 +516,6 @@ def get_estate(data):
 
     # MEDIAS
     media_list = target.get('Media_types') or list()
-    item_loader.add_value("cable_television", has_feature(media_list, "cable-television"))
     item_loader.add_value("electricity", has_feature(media_list, "electricity"))
     item_loader.add_value("gas", has_feature(media_list, "gas"))
     item_loader.add_value("internet", has_feature(media_list, "internet"))

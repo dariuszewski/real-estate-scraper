@@ -18,10 +18,8 @@ def merge_all_features(*feature_lists):
     
     return list(all_features)
 
-
 def has_feature(feature_list, feature):
     return feature in feature_list
-
 
 def extract_estate_floors(value):
     if 'one' in value:
@@ -33,6 +31,22 @@ def extract_estate_floors(value):
     
     return value
 
+def safe_get_index(lst, length):
+    if len(lst) < length:
+        for i in range(length - len(lst)):
+            lst.append(None)
+    
+    return lst
+
+def get_heating(*args):
+    return merge_all_features(*args)[0] if merge_all_features(*args) else None
+
+def get_secondary_heating(heating_1, heating_types):
+    secondary_heating = list(filter(lambda x: x != heating_1, heating_types))
+    if secondary_heating:
+        return secondary_heating[0]
+    else:
+        return None
 
 def translate_offer_type(value):
     if 'sprze' in value:
@@ -42,13 +56,11 @@ def translate_offer_type(value):
     
     return value
 
-
 def translate_regular_user(value):
     if value == 'y':
         return True
     else:
         return False
-
 
 def translate_proper_type(value):
     if 'mieszkanie' in value:
@@ -58,15 +70,8 @@ def translate_proper_type(value):
     
     return value
 
+def int_or_none(value):
+    return value if isinstance(value, int) else None
 
-def get_heating(*args):
+def get_first_or_none(*args):
     return merge_all_features(*args)[0] if merge_all_features(*args) else None
-
-
-def get_secondary_heating(heating_1, heating_types):
-    secondary_heating = list(filter(lambda x: x != heating_1, heating_types))
-    if secondary_heating:
-        return secondary_heating[0]
-    else:
-        return None
-

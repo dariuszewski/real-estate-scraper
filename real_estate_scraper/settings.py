@@ -8,6 +8,12 @@
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 
+# from shutil import which
+
+# SELENIUM_DRIVER_NAME = 'chrome'
+# SELENIUM_DRIVER_EXECUTABLE_PATH = 'C:/Users\dariu\Desktop/real_estates_scraper/real_estate_scraper/chromedriver.exe' # which('chromedriver')
+# SELENIUM_DRIVER_ARGUMENTS=['--headless'] 
+
 BOT_NAME = 'real_estate'
 
 SPIDER_MODULES = ['real_estate_scraper.spiders']
@@ -57,7 +63,7 @@ DOWNLOADER_MIDDLEWARES = {
     'scrapy.contrib.downloadermiddleware.retry.RetryMiddleware': None,
     'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400,
     'scrapy_fake_useragent.middleware.RetryUserAgentMiddleware': 401,
-    # 'scrapy_selenium.SeleniumMiddleware': 800,
+    'scrapy_selenium.SeleniumMiddleware': 800,
     # 'real_estate_scraper.middlewares.RealEstateScraperDownloaderMiddleware': 543,
     # 'rotating_proxies.middlewares.RotatingProxyMiddleware': 610,
     # 'rotating_proxies.middlewares.BanDetectionMiddleware': 620,
@@ -106,7 +112,7 @@ FAKEUSERAGENT_PROVIDERS = [
     'scrapy_fake_useragent.providers.FixedUserAgentProvider',  # fall back to USER_AGENT value
 ]
 
-FAKE_USER_AGENT_RANDOM_UA_TYPE = 'random'
+FAKE_USER_AGENT_RANDOM_UA_TYPE = 'chrome'
 
 ROTATING_PROXY_LIST_PATH = './proxies.txt'
 
