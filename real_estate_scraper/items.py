@@ -112,11 +112,11 @@ class RealEstateItem(scrapy.Item):
     heating = scrapy.Field(
             input_processor = MapCompose(str),
             output_processor = TakeFirst()
-        )
+    )
     heating_2 = scrapy.Field(
             input_processor = MapCompose(str),
             output_processor = TakeFirst()
-        )
+    )
     market_type = scrapy.Field(
         input_processor = MapCompose(str),
         output_processor = TakeFirst()   
@@ -154,7 +154,7 @@ class RealEstateItem(scrapy.Item):
         output_processor = TakeFirst()
     )
     rooms_num = scrapy.Field(
-        input_processor = MapCompose(lambda value: int_or_none(value), int),
+        input_processor = MapCompose(lambda value: extract_rooms_count(value), int),
         output_processor = TakeFirst()
     )
     title = scrapy.Field(
@@ -230,158 +230,172 @@ class RealEstateItem(scrapy.Item):
 
     # FEATURES & MEDIA
     air_conditioning = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
     alarm = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
     anti_burglary_door = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
     attic = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
     balcony = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
     basement = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    cable_television = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    cesspool = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
     closed_area = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
     dishwasher = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
-    entryphone = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
-    fridge = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
-    furniture = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
-    garage = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
-    garden = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
-    lift = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
-    monitoring = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
-    oven = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
-    pool = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
-    roller_shutters = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
-    separate_kitchen = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
-    stove = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
-    terrace = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
-    tv = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
-    usable_room = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
-    washing_machine = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
     electricity = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    entryphone = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    fridge = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    furniture = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    garage = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    garden = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
     gas = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
     internet = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    lift = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    monitoring = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    oven = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
     phone = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    pool = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    roller_shutters = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    separate_kitchen = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
     sewage = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    stove = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    terrace = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    tv = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    usable_room = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
     water = scrapy.Field(
-            input_processor = MapCompose(bool),
-            output_processor = TakeFirst()
-        )
-
-    # HOUSE ONLY DATA
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    water_purification = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    washing_machine = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    forest = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    lake = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
+    mountains = scrapy.Field(
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
     access_type = scrapy.Field(
-            input_processor = MapCompose(str),
-            output_processor = TakeFirst()
-        )
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
     fence = scrapy.Field(
-            input_processor = MapCompose(str),
-            output_processor = TakeFirst()
-        )
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
     roof_type = scrapy.Field(
-            input_processor = MapCompose(str),
-            output_processor = TakeFirst()
-        )
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
     roofing = scrapy.Field(
-            input_processor = MapCompose(str),
-            output_processor = TakeFirst()
-        )
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
     location_type = scrapy.Field(
-            input_processor = MapCompose(str),
-            output_processor = TakeFirst()
-        )
-    vicinities = scrapy.Field(
-            input_processor = MapCompose(str),
-            output_processor = TakeFirst()
-        )
+        input_processor = MapCompose(bool),
+        output_processor = TakeFirst()
+    )
 
     # FEATURES AND MEDIAS BY CATEGORY
-    security_types = scrapy.Field()
-    equipment_types = scrapy.Field()
-    extras_types = scrapy.Field()
     all_features = scrapy.Field()
-    all_medias = scrapy.Field()
 
 def get_estate(data):
     item_loader = ItemLoader(item=RealEstateItem(), data=data)
@@ -474,13 +488,14 @@ def get_estate(data):
     item_loader.add_value('roof_type', target.get('Roof_type'))
     item_loader.add_value('roofing', target.get('Roofing'))
     item_loader.add_value('location_type', target.get('Location'))
-    item_loader.add_value('vicinities', target.get('Vicinity_types'))
-    
-    # FEATURES
+
+    # FEATURES & MEDIAS
+    media_list = target.get('Media_types') or list()
     security = target.get('Equipment_types') or list()
     equipment = target.get('Equipment_types') or list()
     extras = target.get('Extras_types') or list()
-    all_features = merge_all_features(security, equipment, extras) or list()
+    vicinities =  target.get('Vicinity_types') or list()
+    all_features = merge_all_features(security, equipment, extras, media_list, vicinities) or list()
 
     item_loader.add_value("all_features", all_features)
     item_loader.add_value("air_conditioning", has_feature(all_features, "air_conditioning"))
@@ -489,39 +504,43 @@ def get_estate(data):
     item_loader.add_value("attic", has_feature(all_features, "attic"))
     item_loader.add_value("balcony", has_feature(all_features, "balcony"))
     item_loader.add_value("basement", has_feature(all_features, "basement"))
+    item_loader.add_value("cable_television", has_feature(all_features, "cable_television"))
+    item_loader.add_value("cesspool", has_feature(all_features, "cesspool"))
     item_loader.add_value("closed_area", has_feature(all_features, "closed_area"))
     item_loader.add_value("dishwasher", has_feature(all_features, "dishwasher"))
+    item_loader.add_value("electricity", has_feature(media_list, "electricity"))
     item_loader.add_value("entryphone", has_feature(all_features, "entryphone"))
     item_loader.add_value("fridge", has_feature(all_features, "fridge"))
     item_loader.add_value("furniture", has_feature(all_features, "furniture"))
     item_loader.add_value("garage", has_feature(all_features, "garage"))
     item_loader.add_value("garden", has_feature(all_features, "garden"))
+    item_loader.add_value("gas", has_feature(media_list, "gas"))
+    item_loader.add_value("internet", has_feature(media_list, "internet"))
     item_loader.add_value("lift", has_feature(all_features, "lift"))
     item_loader.add_value("monitoring", has_feature(all_features, "monitoring"))
     item_loader.add_value("oven", has_feature(all_features, "oven"))
+    item_loader.add_value("phone", has_feature(all_features, "phone"))
     item_loader.add_value("pool", has_feature(all_features, "pool"))
     item_loader.add_value("roller_shutters", has_feature(all_features, "roller_shutters"))
     item_loader.add_value("separate_kitchen", has_feature(all_features, "separate_kitchen"))
+    item_loader.add_value("sewage", has_feature(all_features, "sewage"))
     item_loader.add_value("stove", has_feature(all_features, "stove"))
     item_loader.add_value("terrace", has_feature(all_features, "terrace"))
     item_loader.add_value("tv", has_feature(all_features, "tv"))
     item_loader.add_value("usable_room", has_feature(all_features, "usable_room"))
+    item_loader.add_value("water", has_feature(all_features, "water"))
+    item_loader.add_value("water_purification", has_feature(all_features, "water_purification"))
     item_loader.add_value("washing_machine", has_feature(all_features, "washing_machine"))
+    item_loader.add_value("forest", has_feature(all_features, "forest"))
+    item_loader.add_value("lake", has_feature(all_features, "lake"))
+    item_loader.add_value("mountains", has_feature(all_features, "mountains"))
 
     #FEATURES BY CATEGORY
-    item_loader.add_value("equipment_types", target.get('Equipment_types'))
-    item_loader.add_value("extras_types", target.get('Extras_types'))
-    item_loader.add_value("security_types", target.get('Security_types'))
-    item_loader.add_value("all_medias", target.get('Media_types'))
+    # item_loader.add_value("equipment_types", target.get('Equipment_types'))
+    # item_loader.add_value("extras_types", target.get('Extras_types'))
+    # item_loader.add_value("security_types", target.get('Security_types'))
+    # item_loader.add_value("all_medias", target.get('Media_types'))
 
-    # MEDIAS
-    media_list = target.get('Media_types') or list()
-    item_loader.add_value("electricity", has_feature(media_list, "electricity"))
-    item_loader.add_value("gas", has_feature(media_list, "gas"))
-    item_loader.add_value("internet", has_feature(media_list, "internet"))
-    item_loader.add_value("phone", has_feature(media_list, "phone"))
-    item_loader.add_value("sewage", has_feature(media_list, "sewage"))
-    item_loader.add_value("water", has_feature(media_list, "water"))
 
     yield item_loader.load_item()
 

@@ -47,3 +47,12 @@ class OtoDomChromeDriver():
             except NoSuchElementException:
                 time.sleep(10)
                 OtoDomChromeDriver.confirm_consent(driver, retries=retries+1)
+
+    @staticmethod
+    def execute(response):
+        driver = OtoDomChromeDriver.init_webdriver()
+        driver.get(url=response.request.url)
+        OtoDomChromeDriver.confirm_consent(driver)
+        OtoDomChromeDriver.scroll_page(driver)
+
+        return driver

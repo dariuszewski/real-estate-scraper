@@ -17,36 +17,31 @@ class OtodomSpider(scrapy.Spider):
     page_number = 1
 
     def start_requests(self):
-        url = 'https://www.otodom.pl/pl/oferty/wynajem/mieszkanie/cala-polska?market=ALL&ownerTypeSingleSelect=ALL&daysSinceCreated=7&by=LATEST&direction=DESC&viewType=listing&lang=pl&searchingCriteria=sprzedaz&searchingCriteria=dom&limit=72&page=1'
-        tag = getattr(self, 'tag', None)
-        if tag is not None:
-            url = url.replace('mieszkanie', tag) # dom
-        yield scrapy.Request(url, self.parse)
+        url = 'https://www.otodom.pl/pl/oferty/sprzedaz/dom/cala-polska?market=ALL&ownerTypeSingleSelect=ALL&daysSinceCreated=3&by=LATEST&direction=DESC&viewType=listing&lang=pl&searchingCriteria=sprzedaz&searchingCriteria=dom&limit=36&page=1'
+        # tag = getattr(self, 'tag', None)
+        # if tag is not None:
+        #     url = url.replace('mieszkanie', tag) # dom
+        yield scrapy.Request(url, self.parse) # consider change to: rassppi + pihole, seleniumhub + docker
 
     def parse(self, response):
 
         # this is to get a full list of ads in 1 page
-        driver = OtoDomChromeDriver.init_webdriver()
-        driver.get(url=response.request.url)
-        OtoDomChromeDriver.confirm_consent(driver)
-        OtoDomChromeDriver.scroll_page(driver)
-        # driver.execute_script(script=OtoDomChromeDriver.page_scroll())
+        driver = OtoDomChromeDriver.execute(response=response)
 
         # get urls and check if page have new offers
         sel = Selector(text=driver.page_source)
         page_has_new_offers = not(bool(sel.xpath('//h3[contains(text(),"Nie znaleźliśmy żadnych ogłoszeń")]').getall()))
-        print(f'Scrapy founbd new offers is {page_has_new_offers}')
         offers = sel.css('a[data-cy*=listing-item-link]::attr(href)').getall()
 
         # close driver after successfully parsing urls to the ads.
         driver.close()
         driver.quit()
 
-        for offer in offers[:]:
-            url = 'https://www.otodom.pl' + offer
-            yield Request(url, callback=self.parse_ad)
-        
         if page_has_new_offers:
+            for offer in offers[:]:
+                url = 'https://www.otodom.pl' + offer
+                yield Request(url, callback=self.parse_ad)
+            
             self.page_number += 1
             print(f"new page number is {self.page_number}")
             url = response.url[:response.url.index('page=')] + 'page=' + str(self.page_number)
