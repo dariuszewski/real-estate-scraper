@@ -18,28 +18,14 @@ def merge_all_features(*feature_lists):
     
     return list(all_features)
 
+
 def has_feature(feature_list, feature):
-    return feature in feature_list
+    return feature in feature_list or None
 
-def extract_estate_floors(value):
-    if 'one' in value:
-        return '1'
-    if 'two' in value:
-        return '2'
-    if 'more' in value:
-        return '3 or more'
-    
-    return value
-
-def safe_get_index(lst, length):
-    if len(lst) < length:
-        for i in range(length - len(lst)):
-            lst.append(None)
-    
-    return lst
 
 def get_heating(*args):
     return merge_all_features(*args)[0] if merge_all_features(*args) else None
+
 
 def get_secondary_heating(heating_1, heating_types):
     secondary_heating = list(filter(lambda x: x != heating_1, heating_types))
@@ -70,8 +56,9 @@ def translate_proper_type(value):
     
     return value
 
-def int_or_none(value):
-    return value if isinstance(value, int) else None
+def extract_rooms_count(value):
+    if '+' in value:
+        return value[1:]
+    else:
+        return value
 
-def get_first_or_none(*args):
-    return merge_all_features(*args)[0] if merge_all_features(*args) else None
