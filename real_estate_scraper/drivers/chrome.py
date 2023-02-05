@@ -45,7 +45,7 @@ class OtoDomChromeDriver():
                 time.sleep(3) # wait for selector to be loaded on page
                 consent.click()
             except NoSuchElementException:
-                time.sleep(10)
+                time.sleep(3)
                 OtoDomChromeDriver.confirm_consent(driver, retries=retries+1)
 
     @staticmethod

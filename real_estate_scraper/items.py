@@ -4,8 +4,6 @@
 # https://docs.scrapy.org/en/latest/topics/items.html
 
 import datetime
-import re
-from w3lib.html import remove_tags
 
 import scrapy
 from scrapy.loader import ItemLoader
@@ -45,10 +43,10 @@ class RealEstateItem(scrapy.Item):
         input_processor = MapCompose(datetime.datetime.fromisoformat),
         output_processor = TakeFirst()
     )
-    description = scrapy.Field(
-        input_processor = MapCompose(remove_tags),
-        output_processor = TakeFirst()
-    )
+    # description = scrapy.Field(
+    #     input_processor = MapCompose(remove_tags),
+    #     output_processor = TakeFirst()
+    # )
     title = scrapy.Field(
         input_processor = MapCompose(str),
         output_processor = TakeFirst()         
@@ -410,7 +408,7 @@ def get_estate(data):
     item_loader.add_value("public_id", data.get("publicId"))
     item_loader.add_value("created_at", data.get("createdAt"))
     item_loader.add_value("modified_at", data.get("modifiedAt"))
-    item_loader.add_value("description", data.get("description"))
+    # item_loader.add_value("description", data.get("description"))
     item_loader.add_value("title", data.get('title'))
     item_loader.add_value("url", data.get('request_url'))
 

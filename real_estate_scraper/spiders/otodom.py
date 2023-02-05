@@ -1,4 +1,7 @@
-import time
+"""Run with scrapy runspider spiders/otodom.py -o test.csv"""
+# consider change to: rassppi + pihole, seleniumhub + docker
+
+import re
 import json
 
 import scrapy
@@ -13,16 +16,12 @@ class OtodomSpider(scrapy.Spider):
 
     name = 'otodom'
     allowed_domains = ['otodom.pl']
+    start_urls = [
+        'https://www.otodom.pl/pl/oferty/sprzedaz/mieszkanie/cala-polska?market=ALL&ownerTypeSingleSelect=ALL&daysSinceCreated=1&by=LATEST&direction=DESC&viewType=listing&lang=pl&searchingCriteria=sprzedaz&searchingCriteria=mieszkanie&page=1',
+        'https://www.otodom.pl/pl/oferty/wynajem/mieszkanie/cala-polska?market=ALL&ownerTypeSingleSelect=ALL&daysSinceCreated=1&by=LATEST&direction=DESC&viewType=listing&lang=pl&searchingCriteria=wynajem&searchingCriteria=mieszkanie&page=1',
+        'https://www.otodom.pl/pl/oferty/sprzedaz/dom/cala-polska?market=ALL&ownerTypeSingleSelect=ALL&daysSinceCreated=1&by=LATEST&direction=DESC&viewType=listing&lang=pl&searchingCriteria=sprzedaz&searchingCriteria=dom&page=1'
+    ]
     
-    page_number = 1
-
-    def start_requests(self):
-        url = 'https://www.otodom.pl/pl/oferty/sprzedaz/dom/cala-polska?market=ALL&ownerTypeSingleSelect=ALL&daysSinceCreated=3&by=LATEST&direction=DESC&viewType=listing&lang=pl&searchingCriteria=sprzedaz&searchingCriteria=dom&limit=36&page=1'
-        # tag = getattr(self, 'tag', None)
-        # if tag is not None:
-        #     url = url.replace('mieszkanie', tag) # dom
-        yield scrapy.Request(url, self.parse) # consider change to: rassppi + pihole, seleniumhub + docker
-
     def parse(self, response):
 
         # this is to get a full list of ads in 1 page
@@ -38,14 +37,14 @@ class OtodomSpider(scrapy.Spider):
         driver.quit()
 
         if page_has_new_offers:
-            for offer in offers[:]:
+            for offer in offers:
                 url = 'https://www.otodom.pl' + offer
                 yield Request(url, callback=self.parse_ad)
             
-            self.page_number += 1
-            print(f"new page number is {self.page_number}")
-            url = response.url[:response.url.index('page=')] + 'page=' + str(self.page_number)
-            yield response.follow(url, self.parse)
+            next_page_num = int(re.search(r"page=(\d+)", response.url).group(1)) + 1
+            next_page_url = response.url[:response.url.index('page=')] + 'page=' + str(next_page_num)
+            if next_page_num < 20:
+                yield response.follow(next_page_url, self.parse)
 
     def parse_ad(self, response):
 
